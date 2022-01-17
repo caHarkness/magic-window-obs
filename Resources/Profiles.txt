@@ -1,0 +1,36 @@
+# See this!
+
+# Profiles can be multi-lined
+# Just make sure each subsequent line begins with one space:
+
+Default
+  -width 854
+  -height 480
+  -fps 24
+  -confine true
+  -cursor true
+  -opacity 0
+
+--- # A line starting with a hyphen is processed as a separator
+
+# Single line definitions are also acceptable
+# When selected, the options are merged
+
+60fps -fps 60
+30fps -fps 30
+24fps -fps 24
+
+---
+
+640x360 -width 640 -height 360
+854x480 -width 854 -height 480
+960x540 -width 960 -height 540
+1280x720 -width 1280 -height 720
+
+---
+
+Confine_Recording
+  -confine true
+
+No_Confinement
+  -confine false

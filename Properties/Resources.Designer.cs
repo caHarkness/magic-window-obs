@@ -19,7 +19,7 @@ namespace caHarkness.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -67,6 +67,41 @@ namespace caHarkness.Properties {
             get {
                 object obj = ResourceManager.GetObject("MagicWindowIcon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to # See this!
+        ///
+        ///# Profiles can be multi-lined
+        ///# Just make sure each subsequent line begins with one space:
+        ///
+        ///Default
+        ///  -width 854
+        ///  -height 480
+        ///  -fps 24
+        ///  -confine true
+        ///  -cursor true
+        ///  -opacity 0
+        ///
+        ///--- # A line starting with a hyphen is processed as a separator
+        ///
+        ///# Single line definitions are also acceptable
+        ///# When selected, the options are merged
+        ///
+        ///60fps -fps 60
+        ///30fps -fps 30
+        ///24fps -fps 24
+        ///
+        ///---
+        ///
+        ///640x360 -width 640 -height 360
+        ///854x480 -width 854 -height 480
+        ///960x540 -width 960 -height 54 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Profiles {
+            get {
+                return ResourceManager.GetString("Profiles", resourceCulture);
             }
         }
     }

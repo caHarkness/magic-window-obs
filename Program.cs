@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Reflection;
 using System.IO;
+using System.Text;
 
 namespace caHarkness
 {
@@ -280,83 +281,83 @@ namespace caHarkness
                     notifyIcon.ContextMenuStrip = new ContextMenuStrip();
 
                     var m = notifyIcon.ContextMenuStrip.Items;
+
+                    if (!File.Exists("Profiles.txt"))
+                        File.WriteAllBytes("Profiles.txt", Encoding.ASCII.GetBytes(Properties.Resources.Profiles));
                     
-                    if (File.Exists("profiles.txt"))
+                    string buffer = "";
+                    string[] lines = File.ReadAllLines("Profiles.txt");
+
+
+                    for (int i = 0; i < lines.Length; i++)
                     {
-                        string buffer = "";
-                        string[] lines = File.ReadAllLines("profiles.txt");
+                        string line = lines[i];
+                        string next = null;
 
-
-                        for (int i = 0; i < lines.Length; i++)
+                        try
                         {
-                            string line = lines[i];
-                            string next = null;
+                            next = lines[i+1];
+                        }
+                        catch {}
 
-                            try
-                            {
-                                next = lines[i+1];
-                            }
-                            catch {}
+                        if (line.StartsWith("#") || line.Length < 1)
+                            continue;
 
-                            if (line.StartsWith("#") || line.Length < 1)
-                                continue;
-
-                            if (line.StartsWith("-"))
-                            {
-                                m.Add("-");
-                                continue;
-                            }
-
-                            buffer += line;
-
-                            if (next != null)
-                            {
-                                if (next.StartsWith(" "))
-                                {
-                                    //buffer += line;
-                                    continue;
-                                }
-                            }
-
-                            while (buffer.Contains("  "))
-                                buffer = buffer.Replace("  ", " ");
-
-                            buffer = buffer.Trim();
-
-                            string[] args = buffer.Split(' ');
-
-                            try
-                            {
-                                m.Add(
-                                    args[0],
-                                    null,
-                                    delegate(object Sender, EventArgs a)
-                                    {
-                                        SetPrefs(args);
-
-                                        GetPictureBox().Image = null;
-                                        ConfigureWindow();
-
-                                    });
-                            }
-                            catch {}
-
-                            buffer = "";
+                        if (line.StartsWith("-"))
+                        {
+                            m.Add("-");
+                            continue;
                         }
 
-                        m.Add("-");
+                        buffer += line;
 
-                        m.Add(
-                            "Reload profiles",
-                            null,
-                            delegate(object Sender, EventArgs a)
+                        if (next != null)
+                        {
+                            if (next.StartsWith(" "))
                             {
-                                GetNotifyIcon().Dispose();
-                                notifyIcon = null;
+                                //buffer += line;
+                                continue;
+                            }
+                        }
 
-                                GetNotifyIcon();
-                            });
+                        while (buffer.Contains("  "))
+                            buffer = buffer.Replace("  ", " ");
+
+                        buffer = buffer.Trim();
+
+                        string[] args = buffer.Split(' ');
+
+                        try
+                        {
+                            m.Add(
+                                args[0],
+                                null,
+                                delegate(object Sender, EventArgs a)
+                                {
+                                    SetPrefs(args);
+
+                                    GetPictureBox().Image = null;
+                                    ConfigureWindow();
+
+                                });
+                        }
+                        catch {}
+
+                        buffer = "";
                     }
+
+                    m.Add("-");
+
+                    m.Add(
+                        "Reload profiles",
+                        null,
+                        delegate(object Sender, EventArgs a)
+                        {
+                            GetNotifyIcon().Dispose();
+                            notifyIcon = null;
+
+                            GetNotifyIcon();
+                        });
 
                     m.Add(
                         "Quit",
